@@ -101,10 +101,21 @@ public class Main {
                 // Ahh, nice and simple.
                 System.out.println("Inventory:");
 
+                int max_char = 0;
+
+                // Find the longest item name-wise in the inventory
                 for(Obj obj : player_inv){
-                    System.out.println("  " + obj.getName() + " - taken from " + obj.getTaken_from().getName());
+                    if(obj.getName().length() > max_char){ max_char = obj.getName().length(); }
                 }
 
+                // Space out the other items such that it looks nice
+                for(Obj obj : player_inv){
+                    StringBuilder spaces = new StringBuilder();
+                    for(int i = obj.getName().length(); i < max_char; ++i){
+                        spaces.append(" ");
+                    }
+                    System.out.println("  " + obj.getName() + spaces.toString() + "   - taken from " + obj.getTaken_from().getName());
+                }
                 return(0);
 
             case "move":

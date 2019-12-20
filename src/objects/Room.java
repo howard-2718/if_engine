@@ -50,12 +50,14 @@ public class Room {
     // The end of desc should lead into the listing of the room's objects.
     public String fullDesc() {
         StringBuilder output = new StringBuilder(name + "\n\n" + desc);
-        Integer i = 0;
-        for(Obj obj : this.getObjects()){
-            output.append(obj.getRoom_desc());
-            if(this.objects.size() == 0){
-                output.append("nothing.");
-            } else {
+        Integer i = 1; // Just keeps count
+
+        if(this.objects.size() == 0){
+            output.append("nothing.");
+        } else {
+            for(Obj obj : this.getObjects()) {
+                output.append(obj.getRoom_desc());
+
                 if (this.objects.size() - i == 0) {
                     // There is a table.
                     output.append(".");
