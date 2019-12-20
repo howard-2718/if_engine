@@ -50,25 +50,29 @@ public class Room {
     // The end of desc should lead into the listing of the room's objects.
     public String fullDesc() {
         StringBuilder output = new StringBuilder(name + "\n\n" + desc);
-        Integer i = 1;
+        Integer i = 0;
         for(Obj obj : this.getObjects()){
             output.append(obj.getRoom_desc());
-            if(this.objects.size() - i == 0){
-                // There is a table.
-                output.append(".");
-            } else if(this.objects.size() - i == 1){
-                if(this.objects.size() == 2){
-                    // There is a table and a painting.
-                    output.append(" and ");
-                } else {
-                    // There is a table, a painting, and a chair.
-                    output.append(", and ");
-                }
+            if(this.objects.size() == 0){
+                output.append("nothing.");
             } else {
-                // There is a table, a painting, a chair, and a bottle of wine.
-                output.append(", ");
+                if (this.objects.size() - i == 0) {
+                    // There is a table.
+                    output.append(".");
+                } else if (this.objects.size() - i == 1) {
+                    if (this.objects.size() == 2) {
+                        // There is a table and a painting.
+                        output.append(" and ");
+                    } else {
+                        // There is a table, a painting, and a chair.
+                        output.append(", and ");
+                    }
+                } else {
+                    // There is a table, a painting, a chair, and a bottle of wine.
+                    output.append(", ");
+                }
+                ++i;
             }
-            ++i;
         }
         return output.toString();
     }
