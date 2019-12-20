@@ -7,14 +7,16 @@ public class Obj {
     private String name;
     private String[] alias;
     private String desc;
+    private String room_desc;
     private Room taken_from;
 
-    public Obj(String name, String[] alias, String desc) {
-        // All objects, regardless of type, will have these 3 parameters
+    public Obj(String name, String[] alias, String desc, String room_desc) {
+        // All objects, regardless of type, will have these 4 parameters
         this.type = "Object";
         this.name = name;
         this.alias = alias;
         this.desc = desc;
+        this.room_desc = room_desc;
     }
 
     public String getType() {
@@ -47,6 +49,14 @@ public class Obj {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public String getRoom_desc() {
+        return room_desc;
+    }
+
+    public void setRoom_desc(String room_desc) {
+        this.room_desc = room_desc;
     }
 
     public Room getTaken_from() {

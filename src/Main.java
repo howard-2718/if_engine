@@ -163,15 +163,16 @@ public class Main {
     // Creates all_obj
     private static ArrayList<Obj> all_obj(){
         return new ArrayList<>(Arrays.asList(
-                new Obj("Wooden Table", new String[] {"table", "wood table"}, "it's a table, what more do i need to say"),
-                new Obj("Bottle of wine", new String[] {"bottle", "wine bottle", "booze"},"it's a bottle of wine, what more do i need to say")
+                new Obj("Wooden table", new String[] {"table", "wood table"}, "It's a plain, wooden table. Looks like it's made out of oak.\nOr maybe spruce?", "a table"),
+                new Obj("Painting", new String[] {}, "You examine the painting.\nIt's some abstract post-modernist art that you don't really get, but it looks nice.", "a painting on the wall"),
+                new Obj("Bottle of expensive-looking wine", new String[] {"bottle", "wine bottle", "booze", "bottle of wine"},"it's a bottle of wine, what more do i need to say", "a bottle of expensive-looking wine")
         ));
     }
 
     // Creates all_room
     private static ArrayList<Room> all_room(){
         return new ArrayList<>(Arrays.asList(
-                new Room("Living Room", "The living room is poorly furnished; in fact, the only thing here to see is a table.", new ArrayList<>(Arrays.asList(all_obj.get(0))), new String[][] {{"left", "Kitchen"}}),
+                new Room("Living Room", "The living room is poorly furnished; in fact, the only thing here to see is ", new ArrayList<>(Arrays.asList(all_obj.get(0), all_obj.get(1))), new String[][] {{"left", "Kitchen"}}),
                 new Room("Kitchen", "The kitchen isn't a big step up in looks either. There's a fridge, a stove, some cupboards and an island.", new ArrayList<>(), new String[][] {{"right", "Living Room"}})
         ));
     }
