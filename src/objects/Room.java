@@ -39,6 +39,10 @@ public class Room {
         this.objects = objects;
     }
 
+    public void appendObject(Obj obj) {
+        this.objects.add(obj);
+    }
+
     public String[][] getConnections() {
         return connections;
     }
