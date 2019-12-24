@@ -1,3 +1,0 @@
-- Room(Living Room @@@ The living room is poorly furnished; in fact, the only thing here to see is  @@@ new String[][] {{"left", "Kitchen"}})
-    - Object(Wooden table @@@ table; wood table @@@ It's a plain, wooden table. Looks like it's made out of oak.\nOr maybe spruce? @@@ a table)
-    - Object(Painting @@@ art @@@ You examine the painting.\nIt's some abstract post-modernist art that you don't really get, but it looks nice. @@@ a painting on the wall)
