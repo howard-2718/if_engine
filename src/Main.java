@@ -54,6 +54,8 @@ public class Main {
                     if(c[1].equals("room")) {
                         // 'examine room' prints out the room description
                         System.out.println(player_room.fullDesc());
+                    } else if(c[1].equals("self")) {
+                        System.out.println("I'll leave that up to your imagination.");
                     } else {
                         boolean match = false;
 
@@ -143,6 +145,7 @@ public class Main {
                         if(inp.equals(dir[0])){
                             for(Room room : all_room){
                                 if(room.getName().equals(dir[1])){
+                                    // This will probably break if there are two rooms of the same name
                                     match = true;
                                     player_room = room;
                                     System.out.println(player_room.fullDesc());
@@ -237,7 +240,7 @@ public class Main {
 
 }
 
-// Only used in parse_game_file() so two ArrayLists of different classes could be returned
+// Only used in parse_game_file() so two ArrayLists of different classes can be returned
 final class ParseOutput {
     private final ArrayList<Room> room_list;
     private final ArrayList<Obj> obj_list;
@@ -255,3 +258,14 @@ final class ParseOutput {
         return obj_list;
     }
 }
+
+/*
+    EVENT SYSTEM
+
+    so obviously things are going to happen and properties will change so note to self: something like
+
+    Event(1, param1, param2)
+
+   where the first integer is like the type of event and then the params are whats involved
+   so like Event(1, obj, desc) could be like changing the description of an object)
+*/

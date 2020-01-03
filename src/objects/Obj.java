@@ -9,6 +9,7 @@ public class Obj {
     private String desc;
     private String room_desc;
     private Room taken_from;
+    private Dialogue[] dialogue;
 
     public Obj(String name, String[] alias, String desc, String room_desc) {
         // All objects, regardless of type, will have these 4 parameters
@@ -17,6 +18,15 @@ public class Obj {
         this.alias = alias;
         this.desc = desc;
         this.room_desc = room_desc;
+    }
+
+    public Obj(String name, String[] alias, String desc, String room_desc, Dialogue[] dialogue) {
+        this.type = "Character";
+        this.name = name;
+        this.alias = alias;
+        this.desc = desc;
+        this.room_desc = room_desc;
+        this.dialogue = dialogue;
     }
 
     public String getType() {
@@ -65,5 +75,13 @@ public class Obj {
 
     public void setTaken_from(Room taken_from) {
         this.taken_from = taken_from;
+    }
+
+    public Dialogue[] getDialogue() {
+        return dialogue;
+    }
+
+    public void setDialogue(Dialogue[] dialogue) {
+        this.dialogue = dialogue;
     }
 }
