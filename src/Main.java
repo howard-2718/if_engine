@@ -4,6 +4,7 @@ import common.Common;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 import java.io.*;
 
@@ -140,11 +141,13 @@ public class Main {
                     boolean match = false;
                     String inp = c[1].toLowerCase();
 
-                    // Genius coding
-                    for(String[] dir : player_room.getConnections()){
-                        if(inp.equals(dir[0])){
+                    for(String dir : player_room.getConnections().keySet()){
+                        if(inp.equals(dir.toLowerCase())){
+
+                            String dest = player_room.getConnections().get(dir).toLowerCase();
+
                             for(Room room : all_room){
-                                if(room.getName().equals(dir[1])){
+                                if(room.getName().toLowerCase().equals(dest)){
                                     // This will probably break if there are two rooms of the same name
                                     match = true;
                                     player_room = room;
@@ -183,6 +186,7 @@ public class Main {
                 }
             }
         }
+        // It isn't! Return null.
         return null;
     }
 
@@ -220,17 +224,34 @@ public class Main {
         while ((st = br.readLine()) != null){
             // If the line begins with "- Room"
             // " @@@ " is the delimiter
-            if(st.trim().substring(0,6).equals("- Room")){
+            if(st.trim().substring(0,4).equals("Room")){
                 ++current_room;
 
+                // Splitting the connections
                 String[] split = st.split(" @@@ ");
-                all_room.add(new Room(split[0].substring(7, split[0].length()), split[1], new ArrayList<>(), new String[][] {{"left", "Kitchen"}}));
+                String[] dir_split = split[2].split(" @@* ");
 
-            } else if(st.trim().substring(0,8).equals("- Object")){
+                HashMap<String, String> connections = new HashMap<>();
+
+                // Appending the connections to the HashMap 'connections'
+                for(String dir : dir_split){
+                    String[] parts = dir.split(";");
+                    connections.put(parts[0].trim(), parts[1].substring(0, parts[1].length() - 1).trim());
+                }
+
+                all_room.add(new Room(split[0].substring(5, split[0].length()), split[1].replace("\\n", "n"), new ArrayList<>(), connections));
+
+            } else if(st.trim().substring(0,6).equals("Object")){
                 ++current_obj;
 
                 String[] split = st.split(" @@@ ");
-                all_obj.add(new Obj(split[0].substring(9, split[0].length()), split[1].split("; "), split[2], split[3].substring(0, split[3].length() - 1)));
+                all_obj.add(new Obj(split[0].substring(7, split[0].length()), split[1].split("; "), split[2].replace("\\n", "n"), split[3].substring(0, split[3].length() - 1)));
+                all_room.get(current_room).appendObject(all_obj.get(current_obj));
+            } else if(st.trim().substring(0,9).equals("Character")){
+                ++current_obj;
+
+                String[] split = st.split(" @@@ ");
+                all_obj.add(new Obj(split[0].substring(7, split[0].length()), split[1].split("; "), split[2].replace("\\n", "n"), split[3].substring(0, split[3].length() - 1), new Dialogue[] {}));
                 all_room.get(current_room).appendObject(all_obj.get(current_obj));
             }
         }

@@ -1,5 +1,8 @@
-- Room(Living Room @@@ The living room is poorly furnished; in fact, the only thing here to see is  @@@ new String[][] {{"left", "Kitchen"}})
-    - Object(Wooden table @@@ table; wood table @@@ It's a plain, wooden table. Looks like it's made out of oak.\nOr maybe spruce? @@@ a table)
-    - Object(Painting @@@ art @@@ You examine the painting.\nIt's some abstract post-modernist art that you don't really get, but it looks nice. @@@ a painting on the wall)
-    - Character(Black cat @@@ cat @@@ The cat has a name tag, but it's too worn out to make out the name. @@@ a black cat)
-        - Dialogue(1 @@@ You kneel down and forcefully grab the cat's tail. I don't know why you would do that, but ok.\n\nBlack cat: Ouch! Hey, be gentle with my tail! @@@ uhh have not figured that out yet)
+to use a 2D array use @@* and ;
+Room(Living Room @@@ The living room is poorly furnished; in fact, the only thing here to see is  @@@ left; kitchen)
+    Object(Wooden table @@@ table; wood table @@@ It's a plain, wooden table. Looks like it's made out of oak, or maybe spruce? @@@ a table)
+    Object(Painting @@@ art @@@ You examine the painting.\nIt's some abstract post-modernist art that you don't really get, but it looks nice. @@@ a painting on the wall)
+    Character(Black cat @@@ cat @@@ The cat has a name tag, but it's too worn out to make out the name. @@@ a black cat)
+        Dialogue(1 @@@ You kneel down and forcefully grab the cat's tail. I don't know why you would do that, but ok.\n\nBlack cat: Ouch! Hey, be gentle with my tail! @@@ You can talk?; 2 @@* Sorry, your tail just looked reeeeally fluffy.; 3)
+Room(Kitchen @@@ The kitchen is filled with the fragrant smells of a pot-roast, but there's no food in sight. In the kitchen is  @@@ right; living room)
+    Object(Empty pot @@@ pot @@@ The pot is empty, but most likely contained food up until a short while ago. @@@ an empty pot)

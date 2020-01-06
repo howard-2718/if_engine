@@ -1,14 +1,15 @@
 package objects;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Room {
     private String name;
     private String desc;
     private ArrayList<Obj> objects;
-    private String[][] connections;
+    private HashMap<String, String> connections;
 
-    public Room(String name, String desc, ArrayList<Obj> objects, String[][] connections) {
+    public Room(String name, String desc, ArrayList<Obj> objects, HashMap<String, String> connections) {
         this.name = name;
         this.desc = desc;
         this.objects = objects;
@@ -43,11 +44,11 @@ public class Room {
         this.objects.add(obj);
     }
 
-    public String[][] getConnections() {
+    public HashMap<String, String> getConnections() {
         return connections;
     }
 
-    public void setConnections(String[][] connections) {
+    public void setConnections(HashMap<String, String> connections) {
         this.connections = connections;
     }
 
