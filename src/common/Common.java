@@ -18,9 +18,9 @@ public class Common {
     }
 
     // Basically python
-    public static String input(){
+    public static String input(String str){
         Scanner in = new Scanner(System.in);
-        System.out.print("\n> ");
+        System.out.print(str);
         return in.nextLine();
     }
 

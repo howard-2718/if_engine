@@ -10,38 +10,86 @@ import java.io.*;
 
 public class Main {
 
-    private static URL url = Main.class.getResource("game.txt");
-    private static File game_file = new File(url.getPath());
+    private static URL url;
+    private static File game_file;
 
     private static ParseOutput temp;
 
-    static {
+    // all_obj is not used currently, may be able to just completely phase it out
+    private static ArrayList<Obj> all_obj;
+    private static ArrayList<Room> all_room;
+
+    private static Room player_room;
+    private static ArrayList<Obj> player_inv;
+
+    public static void main(String[] args){
+
+        // Upon starting, ask the player if they would like to play or edit.
+        boolean decision = false;
+
+        // Keep looping the choice until a valid option is selected.
+        while(!decision) {
+            String play_or_edit = Common.input("Welcome to the IF engine interface.\nWould you like to PLAY or EDIT?" +
+                    "\n\n1. Play\n2. Edit (Will open another window)\n\n> ").toLowerCase();
+
+            switch (play_or_edit) {
+                case "1":
+                case "play":
+                    decision = true;
+                    exec_game();
+                    break;
+                case "2":
+                case "edit":
+                    decision = true;
+                    exec_editor();
+                    break;
+                default:
+                    System.out.println("Invalid option!");
+            }
+        }
+    }
+
+/////////////////////////////////////////////////////////////////
+//*************************************************************//
+//*********************** THE PLAYER **************************//
+//*************************************************************//
+/////////////////////////////////////////////////////////////////
+
+    // The game loop
+    private static void exec_game(){
+        // Ask for filename
+        String name = Common.input("Please enter the filename (without the extension!).\n\n> ");
+        url = Main.class.getResource(name + ".txt");
+        game_file = new File(url.getPath());
+
+        // Parse game file
         try {
             temp = parse_game_file(game_file);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
 
-    private static ArrayList<Obj> all_obj = temp.getObj_list();
-    private static ArrayList<Room> all_room = temp.getRoom_list();
+        // Give values to all those variables that were null
+        all_obj = temp.getObj_list();
+        all_room = temp.getRoom_list();
 
-    private static Room player_room = all_room.get(0);
-    private static ArrayList<Obj> player_inv = new ArrayList<>();
+        player_room = all_room.get(0);
+        player_inv = new ArrayList<>();
 
-    public static void main(String[] args){
-
+        // Print the description of the first room the player finds themselves in
         System.out.println(player_room.fullDesc());
 
         int cont = game();
 
+        // Keep calling game() until it returns a 1, indicating that the game has been exited.
         while(cont != 1){
             cont = game();
         }
     }
 
+    // It'd probably be best to move this into another file
     private static int game(){
-        String choice = Common.input().toLowerCase();
+        String choice = Common.input("\n> ").toLowerCase();
 
         String[] c = choice.split("\\s+");
 
@@ -52,26 +100,30 @@ public class Main {
                     System.out.println("What would you like to examine?");
                 }
                 else {
-                    if(c[1].equals("room")) {
-                        // 'examine room' prints out the room description
-                        System.out.println(player_room.fullDesc());
-                    } else if(c[1].equals("self")) {
-                        System.out.println("I'll leave that up to your imagination.");
-                    } else {
-                        boolean match = false;
+                    switch (c[1]) {
+                        case "room":
+                            // 'examine room' prints out the room description
+                            System.out.println(player_room.fullDesc());
+                            break;
+                        case "self":
+                            System.out.println("I'll leave that up to your imagination.");
+                            break;
+                        default:
+                            boolean match = false;
 
-                        // Remove 'examine' and concatenate the rest of the input
-                        String str = String.join(" ", Arrays.copyOfRange(c, 1, c.length));
+                            // Remove 'examine' and concatenate the rest of the input
+                            String str = String.join(" ", Arrays.copyOfRange(c, 1, c.length));
 
-                        if(obj_in_room(str, player_room) != null){
-                            System.out.println(Objects.requireNonNull(obj_in_room(str, player_room)).getDesc());
-                            match = true;
-                        }
+                            if (obj_in_room(str, player_room) != null) {
+                                System.out.println(Objects.requireNonNull(obj_in_room(str, player_room)).getDesc());
+                                match = true;
+                            }
 
-                        // If the player's input doesn't correspond to any object
-                        if(!match){
-                            System.out.println("There is no such thing in this room!");
-                        }
+                            // If the player's input doesn't correspond to any object
+                            if (!match) {
+                                System.out.println("There is no such thing in this room!");
+                            }
+                            break;
                     }
                 }
                 return(0);
@@ -176,7 +228,7 @@ public class Main {
 
     // Takes a string and a room, and then determines if the object with that string as a name/alias is in said room
     private static Obj obj_in_room(String str, Room room){
-        for(Obj obj : all_obj){
+        for(Obj obj : room.getObjects()){
             // Does the object refer to an existing object?
             if(str.toLowerCase().equals(obj.getName().toLowerCase()) || Arrays.asList(obj.getAlias()).contains(str)) {
                 // Is it in the room?
@@ -190,23 +242,22 @@ public class Main {
         return null;
     }
 
-    /*
-    // Creates all_obj
-    private static ArrayList<Obj> all_obj(){
-        return new ArrayList<>(Arrays.asList(
-                new Obj("Wooden table", new String[] {"table", "wood table"}, "It's a plain, wooden table. Looks like it's made out of oak.\nOr maybe spruce?", "a table"),
-                new Obj("Painting", new String[] {}, "You examine the painting.\nIt's some abstract post-modernist art that you don't really get, but it looks nice.", "a painting on the wall"),
-                new Obj("Bottle of expensive-looking wine", new String[] {"bottle", "wine bottle", "booze", "bottle of wine"},"it's a bottle of wine, what more do i need to say", "a bottle of expensive-looking wine")
-        ));
+/////////////////////////////////////////////////////////////////
+//*************************************************************//
+//*********************** THE EDITOR **************************//
+//*************************************************************//
+/////////////////////////////////////////////////////////////////
+
+    private static void exec_editor(){
+        // Create an instance of the Editor class
+        new Editor();
     }
 
-    // Creates all_room
-    private static ArrayList<Room> all_room(){
-        return new ArrayList<>(Arrays.asList(
-                new Room("Living Room", "The living room is poorly furnished; in fact, the only thing here to see is ", new ArrayList<>(Arrays.asList(all_obj.get(0), all_obj.get(1))), new String[][] {{"left", "Kitchen"}}),
-                new Room("Kitchen", "The kitchen isn't a big step up in looks either. There's a fridge, a stove, some cupboards and an island.", new ArrayList<>(), new String[][] {{"right", "Living Room"}})
-        ));
-    }*/
+/////////////////////////////////////////////////////////////////
+//*************************************************************//
+//********************** MISCELLANEOUS ************************//
+//*************************************************************//
+/////////////////////////////////////////////////////////////////
 
     private static ParseOutput parse_game_file(File file) throws IOException {
         // Initialize ArrayLists
