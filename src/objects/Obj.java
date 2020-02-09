@@ -23,6 +23,7 @@ public class Obj {
         this.room_desc = room_desc;
     }
 
+    // Doors are kind of funky because they technically don't exist in a room but rather bridge two rooms together
     public Obj(String name, String[] alias, String desc, String room_desc, String is_open, String dir, String key) {
         this.type = "Door";
         this.name = name;

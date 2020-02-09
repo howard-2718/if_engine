@@ -69,25 +69,25 @@ public class Common {
                     connections.put(parts[0].trim(), parts[1].substring(0, parts[1].length() - 1).trim());
                 }
 
-                all_room.add(new Room(split[0].substring(5, split[0].length()), split[1].replace("\\n", "n"), new ArrayList<>(), connections));
+                all_room.add(new Room(split[0].substring(5, split[0].length()), split[1].replace("\\n", "\n"), new ArrayList<>(), connections));
 
             } else if(st.substring(0,6).equals("Object")){
                 ++current_obj;
 
                 String[] split = st.split(" @@@ ");
-                all_obj.add(new Obj(split[0].substring(7, split[0].length()), split[1].split("; "), split[2].replace("\\n", "n"), split[3].substring(0, split[3].length() - 1)));
+                all_obj.add(new Obj(split[0].substring(7, split[0].length()), split[1].split("; "), split[2].replace("\\n", "\n"), split[3].substring(0, split[3].length() - 1)));
                 all_room.get(current_room).appendObject(all_obj.get(current_obj));
             } else if(st.substring(0,4).equals("Door")) {
                 ++current_obj;
 
                 String[] split = st.split(" @@@ ");
-                all_obj.add(new Obj(split[0].substring(5, split[0].length()), split[1].split("; "), split[2].replace("\\n", "n"), split[3], split[4], split[5], split[6].substring(0, split[6].length() - 1)));
+                all_obj.add(new Obj(split[0].substring(5, split[0].length()), split[1].split("; "), split[2].replace("\\n", "\n"), split[3], split[4], split[5], split[6].substring(0, split[6].length() - 1)));
                 all_room.get(current_room).appendObject(all_obj.get(current_obj));
             } else if(st.substring(0,9).equals("Character")){
                 ++current_obj;
 
                 String[] split = st.split(" @@@ ");
-                all_obj.add(new Obj(split[0].substring(7, split[0].length()), split[1].split("; "), split[2].replace("\\n", "n"), split[3].substring(0, split[3].length() - 1), new Dialogue[] {}));
+                all_obj.add(new Obj(split[0].substring(7, split[0].length()), split[1].split("; "), split[2].replace("\\n", "\n"), split[3].substring(0, split[3].length() - 1), new Dialogue[] {}));
                 all_room.get(current_room).appendObject(all_obj.get(current_obj));
             }
         }

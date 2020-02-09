@@ -46,6 +46,7 @@ public class Main {
     // The game loop
     private static void exec_game(){
         // Ask for filename
+        // Need to check for the existence of the file
         String name = Common.input("Please enter the filename (without the extension!).\n\n> ");
         URL url = Main.class.getResource(name + ".txt");
         File game_file = new File(url.getPath());
